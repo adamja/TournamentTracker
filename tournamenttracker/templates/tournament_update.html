@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+{% set active_game_id = game.id %}
+{% set active_tournament_id = tournament.id %}
+{% set active_tournament_name = tournament.name %}
+{% set active_page = 'settings' %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-3 mt-3"><h3>{{ title }}</h3></legend>
+                <div class="form-group">
+                    {{ form.name.label(class="form-control-label") }}
+
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.name(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.game.label(class="form-control-label") }}
+                    {% if form.game.errors %}
+                        {{ form.game(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.game.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.game(class="form-control form-control-lg no-dot") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.win_points.label(class="form-control-label") }}
+                    {% if form.win_points.errors %}
+                        {{ form.win_points(class="form-control form-control-lg") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.win_points.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.win_points(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.draw_points.label(class="form-control-label") }}
+                    {% if form.draw_points.errors %}
+                        {{ form.draw_points(class="form-control form-control-lg") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.draw_points.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.draw_points(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.mvp_points.label(class="form-control-label") }}
+                    {% if form.mvp_points.errors %}
+                        {{ form.mvp_points(class="form-control form-control-lg") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.mvp_points.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.mvp_points(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info mt-1 mb-1") }}
+                <button type="button" class="btn btn-outline-danger m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+            </div>
+        </form>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Delete Player?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <form action="{{ url_for('tournaments.delete_tournament', tournament_id=tournament.id) }}" method="POST">
+              <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

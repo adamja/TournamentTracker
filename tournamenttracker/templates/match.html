@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+{% set active_game_id = game.id %}
+{% set active_tournament_id = tournament.id %}
+{% set active_tournament_name = tournament.name %}
+{% set active_page = 'matches' %}
+{% block content %}
+        <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle game-img-lg" src="{{ url_for('static', filename='game_logos/' + game.image_file) }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ match.name }}</h2>
+          <p class="text-secondary">Status: {{ match.status() }}</p>
+        </div>
+      </div>
+        <legend class="border-bottom mb-4">Match Info</legend>
+        <h5><div>
+            <b>Name:</b> {{ match.name }}
+        </div>
+        <div>
+            <b>Start time:</b> {{ match.format_datetime(match.start_time) }}
+        </div>
+        <div>
+            <b>End time:</b> {{ match.format_datetime(match.end_time) }}
+        </div>
+        <div>
+            <b>Duration:</b> {{ match.format_timedelta(match.duration()) }}
+        </div>
+        <div>
+            <b>Teams:</b> {{ match.teams_count }}
+        </div>
+        <div>
+            <b>Players:</b> {{ match.players_count }}
+        </div>
+        <div>
+            <b>Winning team:</b> {{ match.winning_team }}
+        </div>
+        <div>
+            <b>Balance mode:</b> {{ match.balance_mode_name() }}
+        </div></h5>
+        <div>
+            <a class="btn btn-outline-success btn-md mt-1 mb-1" href="{{ url_for('matches.play_match', game_id=game.id, tournament_id=tournament.id, match_id=match.id) }}">Play</a>
+            <a class="btn btn-outline-info btn-md mt-1 mb-1" href="{{ url_for('matches.update_match', game_id=game.id, tournament_id=tournament.id, match_id=match.id) }}">Update</a>
+            <button type="button" class="btn btn-outline-danger btn-md m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+        </div>
+
+        <hr>
+        <legend class="border-bottom mb-4">Match players</legend>
+        <table id="match-player-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th data-sort-default>Name
+                  </th>
+                  <th>Team
+                  </th>
+                  <th>Position
+                  </th>
+                  <th>Status
+                  </th>
+                  <th>Start rating
+                  </th>
+                  <th>MVP
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for mp in match_players %}
+                <tr>
+                    <td><a href="{{ url_for('players.player', game_id=game.id, tournament_id=tournament.id, player_id=mp.player_id) }}">{{ mp.player.name }}</a></td>
+                    <td>{{ mp.team }}</td>
+                    <td>{{ mp.position }}</td>
+                    <td>{{ mp.match_status() }}</td>
+                    <td>{{ mp.start_rating }}</td>
+                    <td>{{ mp.mvp }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+        </table>
+        <script>new Tablesort(document.getElementById('match-player-table'));</script>
+
+        <a class="btn btn-outline-success btn-sm mt-1 mb-1" href="{{ url_for('matches.add_players_match', game_id=game.id, tournament_id=tournament.id, match_id=match.id) }}">+ Add or remove players</a>
+
+    </div>  <!-- Close content section -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Delete Match?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <form action="{{ url_for('matches.delete_match', game_id=game.id, tournament_id=tournament.id, match_id=match.id) }}" method="POST">
+              <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

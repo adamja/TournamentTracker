@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block content %}
+        <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">{{ title }}</legend>
+                <div class="form-group">
+                    {{ form.name.label(class="form-control-label") }}
+
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.name(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.game.label(class="form-control-label") }}
+                    {% if form.game.errors %}
+                        {{ form.game(class="form-control form-control-lg") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.game.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.game(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.win_points.label(class="form-control-label") }}
+                    {% if form.win_points.errors %}
+                        {{ form.win_points(class="form-control form-control-lg") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.win_points.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.win_points(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.draw_points.label(class="form-control-label") }}
+                    {% if form.draw_points.errors %}
+                        {{ form.draw_points(class="form-control form-control-lg") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.draw_points.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.draw_points(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.mvp_points.label(class="form-control-label") }}
+                    {% if form.mvp_points.errors %}
+                        {{ form.mvp_points(class="form-control form-control-lg") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.mvp_points.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.mvp_points(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

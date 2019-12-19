@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% set active_game_id = game.id %}
+{% set active_tournament_id = tournament.id %}
+{% set active_tournament_name = tournament.name %}
+{% set active_page = 'score_board' %}
+{% block content %}
+    <div class="content-section">
+        <legend class="border-bottom mb-3 mt-3"><h3>Score Board</h3></legend>
+        <div class="table-responsive">
+            <table id="score-board-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th data-sort-default>Rank
+                  </th>
+                  <th data-sort-method="none">Icon
+                  </th>
+                  <th>Player name
+                  </th>
+                  <th>Game name
+                  </th>
+                  <th>Wins
+                  </th>
+                  <th>Loses
+                  </th>
+                  <th>MVP
+                  </th>
+                  <th data-sort-method="number">Win Rate
+                  </th>
+                  <th>Rating
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for player in players %}
+                <tr>
+                  <td>{{ player.tournament_rank }}</td>
+                  <td><img class="rounded-circle player-img-sm" src="{{ url_for('static', filename='player_pics/' + player.image_file) }}"></td>
+                  <td><a href="{{ url_for('players.player', game_id=game.id, tournament_id=tournament.id, player_id=player.id) }}">{{ player.name }}</a></td>
+                  <td>{{ player.game_name }}</td>
+                  <td>{{ player.win_score }}</td>
+                  <td>{{ player.lose_score }}</td>
+                  <td>{{ player.mvp_score }}</td>
+                  <td>{{ player.win_rate_percentage() }}%</td>
+                  <td>{{ player.calculate_rating() }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <script>new Tablesort(document.getElementById('score-board-table'));</script>
+{% endblock content %}

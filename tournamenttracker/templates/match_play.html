@@ -1,0 +1,121 @@
+{% extends "layout.html" %}
+{% set active_game_id = game.id %}
+{% set active_tournament_id = tournament.id %}
+{% set active_tournament_name = tournament.name %}
+{% set active_page = 'matches' %}
+{% block content %}
+    <form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div class="content-section">
+        <legend class="border-bottom mb-3 mt-3"><h3>{{ match.name }}</h3></legend>
+        <p class="text-secondary">Status: {{ match.status() }}</p>
+        {% if match.status() != 'Not started' %}
+        <p class="text-secondary">Balance mode: {{ match.balance_mode.name }}</p>
+        {% else %}
+        <div>
+            {{ form.balance_mode.label(class="form-control-label") }}
+            {{ form.balance_mode(class="form-control form-control-lg mb-3") }}
+        </div>
+        {% endif %}
+
+        <!-- Game Timer -->
+        <div align="center">
+            <h5 class="text-secondary">Game time</h5>
+            <h1 id="match-time">
+                {% if match.status() == 'Not started' %}
+                    00:00
+                {% elif match.status() == 'Complete' %}
+                    {{ match.format_timedelta(match.duration()) }}
+                {% endif %}
+            </h1>
+            {% if match.status() == 'In progress' %}
+                <script>countUpFromTime("{{ match.start_time }}", "match-time");</script>
+            {% endif %}
+        </div>
+
+        <!-- Match player grid -->
+        {% set players_per_team = (match.players_count / match.teams_count)|round|int %}
+        {% set players_count = match.players|length %}
+        {% set team_cursor = [1] %}
+        <div class="teams-container">
+            {% for p in range(match.players_count) %}
+
+              {% if p % players_per_team == 0 %}
+            <div class="team" id="team-{{ team_cursor|length }}">
+                <h3 class="mb-2">Team {{ team_cursor|length }} ( <span id="balance-team-{{ team_cursor|length }}">- </span>% )</h3>
+                {% if team_cursor.append(1) %}{% endif %}
+              {% endif %}
+                <div class="position mt-2" id="position-{{ p + 1 }}">
+                Player {{ p + 1 }}<br>
+                {% if p < players_count %}
+                    <div class="empty" draggable="true">
+                        <div class="player-info" id="player-{{ match.players[p].id }}" rating={{ match.players[p].calculate_rating() }}>
+                            <img class="rounded-circle player-img-md" src="{{ match.players[p].image_file_url() }}">
+                            <h6>{{ match.players[p].game_name }} ({{ match.players[p].calculate_rating() }})</h6>
+                            <span class="text-secondary">{{ match.players[p].name }}</span>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="empty" draggable="true"></div>
+                {% endif %}
+                </div>
+
+              {% if ((p + 1) % players_per_team) == 0 %}
+            </div>
+                {% if (p + 1) < match.players_count %}
+            <div class="space"></div>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+        </div>
+        <script>matchPlayerGrid({{ match.player_positions() | tojson }});</script>
+
+        <!-- Game Start / Stop Buttons -->
+        <hr>
+        <div align="center">
+            {% if match.status() == 'Not started' %}
+            <button type="button" class="btn btn-outline-success btn-lg mt-3 mb-1" onclick="startMatch('{{ url_for('matches.start_match', game_id=game.id, tournament_id=tournament.id, match_id=match.id) }}')">Start match</button>
+            <script>matchDropAndDrag()</script>
+            <script>balanceGameStart({{ match.all_balance_mode_positions_dict() | tojson }}, 'balance_mode')</script>
+            {% elif match.status() == 'In progress' %}
+            <button type="button" class="btn btn-outline-danger btn-lg mt-3 mb-1" data-toggle="modal" data-target="#deleteModal">End match</button>
+            {% endif %}
+        </div>
+    </div>
+        <script>console.log(getCurrentPlayerPositions());</script>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">End match</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+                <p class="text-secondary">Please select the winning team and choose an MVP for the match.</p>
+                <fieldset class="form-group">
+                    <div class="form-group">
+                        {{ form.winning_team.label(class="form-control-label") }}
+                        {{ form.winning_team(class="form-control form-control-lg") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.mvp.label(class="form-control-label") }}
+                        {{ form.mvp(class="form-control form-control-lg") }}
+                    </div>
+                </fieldset>
+          </div>
+          <div class="modal-footer">
+            <div class="form-group">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-danger" onclick="endMatch('{{ url_for('matches.end_match', game_id=game.id, tournament_id=tournament.id, match_id=match.id) }}')">End</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+{% endblock content %}

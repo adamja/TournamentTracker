@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+{% set active_game_id = game.id %}
+{% set active_tournament_id = tournament.id %}
+{% set active_tournament_name = tournament.name %}
+{% set active_page = 'matches' %}
+{% block content %}
+    <div class="content-section">
+        <legend class="border-bottom mb-3 mt-3"><h3>Matches</h3></legend>
+        <div class="table-responsive">
+            <table id="matches-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th data-sort-default valign="middle">Name
+                  </th>
+                  <th>Status
+                  </th>
+                  <th>Teams
+                  </th>
+                  <th>Players
+                  </th>
+                  <th>Winning team
+                  </th>
+                  <th>Balance mode
+                  </th>
+                  <th data-sort-method="none">Play
+                  </th>
+                  <th data-sort-method="none">Add players
+                  </th>
+                  <th data-sort-method="none">Edit
+                  </th>
+                  <th data-sort-method="none">Delete
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for match in matches %}
+                <tr>
+                  <td><a href="{{ url_for('matches.detail_match', game_id=game.id, tournament_id=tournament.id, match_id=match.id) }}">{{ match.name }}</a></td>
+                  <td>{{ match.status() }}</td>
+                  <td>{{ match.teams_count }}</td>
+                  <td>{{ match.match_players | length }} / {{ match.players_count }}</td>
+                  <td>{{ match.winning_team }}</td>
+                  <td>{{ match.balance_mode_name() }}</td>
+                  <td class="centre">
+                    <a href="{{ url_for('matches.play_match', game_id=game.id, tournament_id=tournament.id, match_id=match.id) }}">
+                          <img class="icon" alt="edit" src="{{ url_for('static', filename='icons/play.png') }}">
+                    </a>
+                  </td>
+
+                  <td class="centre">
+                    <a href="{{ url_for('matches.add_players_match', game_id=game.id, tournament_id=tournament.id, match_id=match.id) }}">
+                          <img class="icon" alt="edit" src="{{ url_for('static', filename='icons/add.png') }}">
+                    </a>
+                  </td>
+                  <td class="centre">
+                      <a href="{{ url_for('matches.update_match', game_id=game.id, tournament_id=tournament.id, match_id=match.id) }}">
+                          <img class="icon" alt="edit" src="{{ url_for('static', filename='icons/edit.png') }}">
+                      </a>
+                  </td>
+                  <td class="centre">
+                      <a type="button" data-toggle="modal" data-target="#deleteModal">
+                          <img class="icon" alt="delete" src="{{ url_for('static', filename='icons/delete.png') }}">
+                      </a>
+                  </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div>
+            <a class="btn btn-outline-success btn-sm mt-1 mb-1" href="{{ url_for('matches.new_match', game_id=game.id, tournament_id=tournament.id) }}">+ Add new match</a>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Delete Match?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <form action="#" method="POST">
+              <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>new Tablesort(document.getElementById('matches-table'));</script>
+{% endblock content %}
