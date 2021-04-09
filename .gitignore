@@ -2,7 +2,6 @@
 .idea/
 __pycache__/
 docker/
-TournamentTracker/data/
 venv/
 *.db
 *.db-journal
