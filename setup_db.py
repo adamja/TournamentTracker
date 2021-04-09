@@ -66,7 +66,8 @@ def create_dummy_tournament():
         db.session.add(BalanceMode(name='Staggered', sequence='1,3,5,7,9,2,4,6,8,10', description='Staggered'))
         db.session.add(BalanceMode(name='First With Last', sequence='1,4,5,7,10,2,3,6,8,9', description='First With Last'))
         db.session.add(BalanceMode(name='Chunking', sequence='1,5,6,7,10,2,3,4,8,9', description='Chunking'))
-        db.session.add(BalanceMode(name='Auto Balance', sequence='', description='Auto Balance'))
+        db.session.add(BalanceMode(name='Auto', sequence='', description='Auto Balance'))
+        db.session.add(BalanceMode(name='Manual', sequence='', description='Manual Balance'))
         db.session.commit()
 
         # Add players to the tournament
