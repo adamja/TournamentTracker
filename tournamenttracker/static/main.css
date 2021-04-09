@@ -1,44 +1,128 @@
 body {
   background: #fafafa;
+  color: #555555;
+  margin-top: 6rem;
+  font-family: segoe ui;
+}
+
+/* Main Titles */
+
+h1 {
+  color: #02321B;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  font-family: trebuchet ms;
+  font-weight: bold;
+}
+
+/* Not used */
+
+h2 {
   color: #333333;
-  margin-top: 5rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: #444444;
+/* Tournament Titles */
+
+h3 {
+  color: #333333;
 }
 
+/* Menu Titles */
+
+h4 {
+  color: #333333;
+}
+
+/* Player Info */
+
+h5 {
+  color: #555555;
+}
+
+/* Not used */
+
+h6 {
+  color: #555555;
+}
+
+
+/* Header */
+
+.site-header .navbar-brand {
+  color: #77AF9C;
+}
 .bg-steel {
-  background-color: #5f788a;
+  background-color: #036437;
+  font-family: trebuchet ms;
 }
 
 .site-header .navbar-nav .nav-link {
-  color: #cbd5db;
+  color: #77AF9C;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
+  color: #D9ECE5;
 }
+
+/* Not used */
 
 .site-header .navbar-nav .nav-link.active {
-  font-weight: 500;
+  font-weight: 100;
 }
 
+/* Tortle icon*/
+
+.navbar-icon {
+  display: inline-block;
+  vertical-align: middle;
+  height: 60px;
+  width: 60px;
+}
+
+
+/* Page cards */
 
 .content-section {
   background: #ffffff;
-  padding: 10px 20px;
-  border: 1px solid #dddddd;
+  padding: 20px 30px 20px 30px;
+  border: 1px solid #D9ECE5;
   border-radius: 3px;
+  margin-bottom: 30px;
+  color: #77AF9C;
+}
+
+.content-game {
+  color: #333333;
+  font-size: 16px;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
+
+.content-game .game-link {
+  color: #036437;
+}
+
+.content-game .game-link:hover {
+  color: #77AF9C;
+}
+
+
+/* No bullet lists */
+
+ul {
+  list-style: none;
+}
+
+/* Not used */
+
 .article-title {
-  color: #444444;
+  color: #333333;
 }
 
 a.article-title:hover {
-  color: #428bca;
+  color: #07BA67;
   text-decoration: none;
 }
 
@@ -55,7 +139,7 @@ a.article-title:hover {
 .article-metadata {
   padding-bottom: 1px;
   margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
+  border-bottom: 1px solid #D9ECE5
 }
 
 .article-metadata a:hover {
@@ -90,12 +174,17 @@ a.article-title:hover {
   margin-bottom: 16px;
 }
 
+/* Not used */
+
 ul#players {
   list-style: none;
 }
 
+/* Tables */
+
 table, td, th {
-  border: 1px solid black;
+  border: 1px solid #333333;
+  color: #333333;
 }
 
 table {
@@ -106,7 +195,20 @@ table {
 td {
   height: 50px;
   vertical-align: middle;
+  padding: 15 px;
 }
+
+th {
+  color: #02321B;
+  vertical-align: middle;
+  padding: 5px;
+  test-align: left;
+}
+
+tr:hover {
+  background-color: #D9ECE5;
+}
+
 
 .centre {
   text-align: center;
@@ -135,18 +237,21 @@ td {
   font-size: 2.5rem;
 }
 
+
+/* Side Navigation */
+
 .side-nav .list-group-item.active {
     color: #000;
-    background-color: #00b0ff;
-    border-color: #DDD;
+    background-color: #036437;
+    border-color: #D9ECE5;
 }
 
 .side-nav a:link {
-    color: #007bff;
+    color: #07BA67;
 }
 
 .side-nav a:visited {
-    color: #007bff;
+    color: #036437;
 }
 
 .side-nav .list-group-item.active a {
@@ -154,17 +259,19 @@ td {
 }
 
 .side-nav .list-group-item.active a:hover {
-    color: #ffffff;
+    color: #D6F8D6;
 }
 
 .side-nav a:hover {
-    color: #0056b3;
+    color: #7AE582;
 }
 
+
 /* Game grid styles */
+
 .box-left {
    display: flex;
-   align-items:center;
+   align-items: center;
    text-align: left;
 }
 
@@ -175,7 +282,8 @@ td {
 }
 
 .hold {
-  border: solid 3px #ccc;
+  border: solid 3px #07BA67;
+  background-color: #D9ECE5;
 }
 
 .empty {
@@ -191,6 +299,7 @@ td {
 
 .hovered {
   border-style: dashed;
+  border-color: #7AE582;
 }
 
 .teams-container {
@@ -217,27 +326,26 @@ td {
 }
 
 .player-info {
-  text-align: center;
-  align-items: center;
+  text-align: left;
+  align-items: left;
   margin-top: 5px;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .player-info > img {
   margin-left: 5px;
-  margin-top: 0px;
   margin-right: 5px;
   margin-bottom: 5px;
   float: left;
 }
 
 .player-info > h6 {
-  line-height: 30px;
+  padding-top: 10px;
 }
 
-/*won and mvp borders */
+/* won and mvp borders */
 .won {
-    border: 2px solid #D1A231;
+    border: 2px solid #07BA67;
 }
 
 .mvp {
@@ -250,24 +358,24 @@ td {
 
 @keyframes blink {
     0% {
-           border-color: rgba(255,0,0,0.3);
+           border-color: #BDF2C1;
     }
     50% {
-           border-color: rgba(255,0,0,0.5);
+           border-color: #7AE582;
     }
     100% {
-           border-color: rgba(255,0,0,1);
+           border-color: #07BA67;
     }
 }
 
 @-webkit-keyframes blink {
     0% {
-           border-color: rgba(255,0,0,0.3);
+           border-color: #BDF2C1;
     }
     50% {
-           border-color: rgba(255,0,0,0.5);
+           border-color: #7AE582;
     }
     100% {
-           border-color: rgba(255,0,0,1);
+           border-color: #07BA67;
     }
 }
