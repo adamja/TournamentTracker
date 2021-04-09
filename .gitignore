@@ -1,2 +1,10 @@
 # Project exclude paths
-/venv/
+.idea/
+__pycache__/
+docker/
+TournamentTracker/data/
+venv/
+*.db
+*.db-journal
+*.env
+*.log
