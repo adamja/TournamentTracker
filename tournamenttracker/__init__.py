@@ -9,6 +9,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from tournamenttracker.config import Config
 
+
 # we leave the extensions outside of the create_app function. The reasoning is:
 # this is so that the ext object does not initially get bound to any one application, using this design pattern
 # no application specific state is stored on the ext object, so one ext object can be used for multiple apps
@@ -26,6 +27,7 @@ js = Bundle('js-file1.js', 'js-file2.js', output='gen/main.js')
     # {% assets "main_js" %}
     # <script type="text/javascript" src="{{ ASSETS_URL }}"></script>
     # {% endassets %}
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
