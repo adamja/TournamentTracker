@@ -1,0 +1,51 @@
+# Use postgres/example user/password credentials
+
+# RUN COMMAND
+# docker-compose -f docker-compose.yaml up
+# docker-compose -f docker-compose.yaml up -d
+# docker-compose -f docker-compose.yaml start
+# docker-compose -f docker-compose.yaml stop
+# docker-compose -f docker-compose.yaml logs -f
+
+# Docker-compose reference: https://docs.docker.com/compose/compose-file/
+
+version: '3.2'
+
+services:
+
+  tournamenttracker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '5000:5000'
+    volumes:
+      - type: volume
+        source: tt-db
+        target: '/app/tournamenttracker/data/db'
+      - type: volume
+        source: tt-logs
+        target: '/app/tournamenttracker/data/logs'
+#    env_file: .env
+    restart: unless-stopped
+
+
+volumes:
+  tt-db:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./docker/tournamenttracker/app/data/db
+  tt-logs:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./docker/tournamenttracker/app/data/logs
+
+
+networks:
+  default:
+    external:
+      name: tournamenttracker
